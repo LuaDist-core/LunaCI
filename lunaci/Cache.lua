@@ -73,7 +73,7 @@ function Cache:persist()
         latest = self.latest or {},
         specs = self.specs or {},
     }
-    pl.file.write(config.cache.reports, pl.pretty.write(reports, '  '))
+    pl.file.write(config.cache.reports, pl.pretty.write(reports, ''))
 end
 
 

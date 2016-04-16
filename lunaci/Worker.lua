@@ -82,27 +82,28 @@ function Worker:get_report()
 end
 
 
--- TODO use LuaDist2 for this when ready
+-- TODO use LuaDist2 for this when it's ready
 function Worker:get_package(name, version, spec)
     local path = pl.path
-    local package_dir = path.join(config.tmp_dir, name, version)
-    local repo = string.format(self.manifest.repo_path, name)
 
-    -- Fetch from git - clone with depth 1 and selected tag only
-    if not path.exists(path.join(package_dir, ".git", "config")) then
-        utils.force_makepath(package_dir)
-        utils.dir_exec(package_dir, string.format("git clone -b '%s' --depth=1 '%s' ./", version, repo))
+    local tmp_dir = path.join(config.tmp_dir, "rockspecs")
+    pl.dir.makepath(tmp_dir)
 
-    end
+    local rockspec_filename = name .. "-" .. version .. ".rockspec"
+    local remote_url = ("https://raw.githubusercontent.com/LuaDist2/%s/%s/%s"):format(name, version, rockspec_filename)
+    local rockspec_path = path.join(tmp_dir, rockspec_filename)
 
-    -- Get rockspec file
-    local rockspec_path = path.join(package_dir, name .. "-" .. version .. ".rockspec")
+    -- Download rockspec from GitHub
     if not path.exists(rockspec_path) then
-        log:error("Could not find rockspec for " .. name .. "-" .. version .. " at " .. rockspec_path)
+        local ok, code, out, err = utils.dir_exec(tmp_dir, ("curl -fksSL '%s'"):format(remote_url))
 
-        return Package(name, version, spec)
+        if not ok then
+            log:error("Could not download rockspec for %s-%s", name, version)
+            return Package(name, version, spec)
+        end
+
+        pl.file.write(rockspec_path, out)
     end
-
 
     -- Load rockspec from file
     local contents = pl.file.read(rockspec_path)
