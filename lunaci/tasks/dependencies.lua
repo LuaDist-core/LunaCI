@@ -2,7 +2,7 @@ module("lunaci.tasks.dependencies", package.seeall)
 
 
 -- Dependency resolving task.
-local check_package_dependencies = function(package, target, manifest)
+local check_package_dependencies = function(package, target, deploy_dir, manifest)
     local config = require "lunaci.config"
     local pl = require "pl.import_into"()
     local DependencySolver = require "rocksolver.DependencySolver"
