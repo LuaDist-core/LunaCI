@@ -142,12 +142,20 @@ function Worker:get_package(name, version, spec)
     local lines = pl.stringx.splitlines(contents)
 
     -- Remove possible hashbangs
-    if lines[1]:match("^#!.*") then
-        table.remove(lines, 1)
+    for i, line in ipairs(lines) do
+        if line:match("^#!.*") then
+            table.remove(lines, i)
+        end
     end
 
     -- Load rockspec file as table
     local rockspec = pl.pretty.load(pl.stringx.join("\n", lines), nil, false)
+
+    if type(rockspec) ~= 'table' then
+        log:warn("Corrupted rockspec file: %s", rockspec_path)
+
+        return Package(name, version, spec)
+    end
 
     return Package.from_rockspec(rockspec)
 end
