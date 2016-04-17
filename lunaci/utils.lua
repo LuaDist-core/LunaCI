@@ -72,6 +72,12 @@ function force_makepath(path)
 end
 
 
+-- TODO IMPORTANT Implement using pl.dir.walk
+function copydir(source, target)
+    return pl.utils.executeex(("cp -fRH '%s' '%s'"):format(source, target))
+end
+
+
 function escape_urlsafe(str)
     return str:gsub("[^a-z0-9_.]+", '-')
 end
