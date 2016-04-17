@@ -1,38 +1,19 @@
 module("lunaci.tasks.build", package.seeall)
 
-math.randomseed(os.time())
 
-
--- Dummy random placeholder task implementation.
-local build_package = function(package, target, manifest)
+-- Basic implementation. Needs better output handling.
+local build_package = function(package, target, deploy_dir, manifest)
     local config = require "lunaci.config"
-    err_msg = ([[
-Building package %s...
-Error building: Something wrong happend.
-This is just a placeholder text here to make it longer.
-]]):format(tostring(package))
+    local utils = require "lunaci.utils"
 
-    succ_msg = ([[
-Building package %s...
+    local ok, code, out, err = utils.dir_exec(deploy_dir, "bin/lua lib/lua/luadist.lua install '" .. package .. "'")
 
-Resolving dependencies... Done.
-Installing dependencies... Done.
-All dependencies installed successfully.
-
-Executing CMake... Done.
-
-Package build successful.
-]]):format(tostring(package))
-
-    rand = math.random(10)
-    if rand <= 3 then
-        return config.STATUS_FAIL, err_msg, false
-    elseif rand < 5 then
-        return config.STATUS_INT, err_msg, false
-    else
-        return config.STATUS_OK, succ_msg, true
+    if not ok then
+        local msg = ("Exit code: %d\nSTDOUT:\n%s\n\nSTDERR:\n%s\n"):format(code, out, err)
+        return config.STATUS_FAIL, msg, false
     end
 
+    return config.STATUS_OK, out, true
 end
 
 
