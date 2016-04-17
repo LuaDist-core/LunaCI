@@ -40,6 +40,9 @@ function Worker:run(targets, tasks)
         for _, target in pairs(targets) do
             self:run_target(package, target, tasks)
         end
+
+        -- Clean package version deploy dir
+        pl.dir.rmtree(pl.path.join(config.deploy_dir, ("%s-%s"):format(package.name, version)))
     end
 end
 
@@ -50,12 +53,16 @@ function Worker:run_target(package, target, tasks)
     pl.utils.assert_arg(2, target, "table")
     pl.utils.assert_arg(3, tasks, "table")
 
+    log:debug("Running target %s on %s", target.name, package)
+
+    local deploy_dir = self:prepare_target(package, target)
+
     local continue = true
     for _, task in pairs(tasks) do
         if not continue then
             self.report:add_output(package, target, task, config.STATUS_NA, "Task chain ended.")
         else
-            local ok, success, output, cont = pcall(task.call, package, target, self.manifest)
+            local ok, success, output, cont = pcall(task.call, package, target, deploy_dir, self.manifest)
 
             if ok then
                 -- Task run without runtime errors
@@ -73,6 +80,31 @@ function Worker:run_target(package, target, tasks)
             end
         end
     end
+
+    self:cleanup_target(deploy_dir, package, target)
+end
+
+
+function Worker:prepare_target(package, target)
+    local path = pl.path
+
+    local target_base = path.basename(target.deploy_dir)
+    local deploy_dir = path.join(config.deploy_dir, ("%s-%s"):format(package.name, package.version), target_base)
+    log:debug("Deploy directory: " .. deploy_dir)
+    utils.force_makepath(deploy_dir)
+
+    -- Copy target base deploy dir
+    local ok, code, out, err = utils.copydir(target.deploy_dir, pl.path.dirname(deploy_dir))
+    if not ok then
+        error("Could not copy target base deploy directory " .. target.deploy_dir .. ": " .. err)
+    end
+
+    return deploy_dir
+end
+
+
+function Worker:cleanup_target(deploy_dir, package, target)
+    return pl.dir.rmtree(deploy_dir)
 end
 
 
