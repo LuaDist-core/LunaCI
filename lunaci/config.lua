@@ -1,3 +1,5 @@
+-- TODO don't forget to git update-index --no-assume-unchanged if you want to add it back to git!
+
 module("lunaci.config", package.seeall)
 
 local path = require "pl.path"
@@ -9,7 +11,7 @@ local function status(s)
 end
 -- Utility function for defining CI targets
 local function target(t)
-    return {name = t[1], compatibility = t[2], binary = t[3]}
+    return {name = t[1], compatibility = t[2], deploy_dir = t[3]}
 end
 
 
@@ -17,6 +19,7 @@ end
 data_dir = path.abspath("data")
 
 tmp_dir = path.join(data_dir, "tmp")
+deploy_dir = path.join(tmp_dir, "deploys")
 
 
 -- Manifest
@@ -43,9 +46,9 @@ logging.date_format = "%Y-%m-%d"
 
 -- LunaCI Targets
 targets = {
-    target{"Lua 5.3", "5.3", "lua5.3/bin/lua"},
-    target{"Lua 5.2", "5.2", "lua5.2/bin/lua"},
-    target{"Lua 5.1", "5.1", "lua5.1/bin/lua"},
+    target{"Lua 5.3", "5.3", path.join(data_dir, "deploy-dirs/lua-5.3")},
+    target{"Lua 5.2", "5.2", path.join(data_dir, "deploy-dirs/lua-5.2")},
+    target{"Lua 5.1", "5.1", path.join(data_dir, "deploy-dirs/lua-5.1")},
 }
 
 
