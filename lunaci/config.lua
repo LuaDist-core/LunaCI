@@ -1,5 +1,3 @@
--- TODO don't forget to git update-index --no-assume-unchanged if you want to add it back to git!
-
 module("lunaci.config", package.seeall)
 
 local path = require "pl.path"
@@ -57,11 +55,14 @@ platform = {"unix", "linux"}
 
 
 -- Task status definitions
-STATUS_OK   = status{"OK", "Success", "success"}
-STATUS_FAIL = status{"Fail", "Failure", "danger"}
-STATUS_NA   = status{"N/A", "Not applicable", "info"}
-STATUS_INT  = status{"Internal", "Internal tooling error", "warning"}
-STATUS_SKIP = status{"Skip", "Skipped", "default"}
+STATUS_OK       = status{"OK", "Success", "success"}
+STATUS_FAIL     = status{"Fail", "Failure", "danger"}
+STATUS_NA       = status{"N/A", "Not applicable", "info"}
+STATUS_PLATFORM = status{"Platform", "Platform unsupported", "info"}
+STATUS_LUA_VER  = status{"Lua", "Lua version unsupported", "info"}
+STATUS_INT      = status{"Internal", "Internal error", "warning"}
+STATUS_SKIP     = status{"Skip", "Skipped", "default"}
+STATUS_SOFTFAIL = status{"Soft Fail", "Soft failure", "warning"}
 
 
 -- Output repository
