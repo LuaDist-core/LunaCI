@@ -82,7 +82,6 @@ end
 
 -- Generate report dashboard with a table of all the packages and outputs
 -- for their latest versions.
--- TODO stats?
 function ReportGenerator:generate_dashboard()
     local tpl_file = config.templates.dashboard_file
     local output_file = pl.path.join(config.templates.output_path, config.templates.output_dashboard)
@@ -207,19 +206,27 @@ function ReportGenerator:generate_stats(packages)
     for _, pkg in pairs(packages) do
         for _, target in pairs(pkg.targets) do
             for _, task in pairs(target.tasks) do
-                local class = task.success.class
-                if not stats[class] then
-                    stats[class] = pl.tablex.deepcopy(task.success)
-                    stats[class].val = 0
+                local title = task.success.title
+                if not stats[title] then
+                    stats[title] = pl.tablex.deepcopy(task.success)
+                    stats[title].val = 0
                 end
-                stats[class].val = stats[class].val + 1
+                stats[title].val = stats[title].val + 1
                 total = total + 1
             end
         end
     end
 
+    local total_percent = 0
     for k, v in pairs(stats) do
         stats[k].val = string.format("%.0f", stats[k].val / total * 100)
+        total_percent = total_percent + tostring(stats[k].val)
+    end
+
+    -- Weird, but can happen sometimes
+    if total_percent > 100 then
+        log:debug("We had a percentage overflow in statistics.")
+        stats[1].val = stats[1].val - (total_percent - 100)
     end
 
     local sorted = {}
