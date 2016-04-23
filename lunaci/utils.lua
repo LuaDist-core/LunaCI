@@ -78,6 +78,13 @@ function copydir(source, target)
 end
 
 
+function raw_read_table(s)
+    s = "x = " .. s
+    local env, err = pl.pretty.load(s, {}, false)
+    return (env and env.x), err
+end
+
+
 function escape_urlsafe(str)
     return str:gsub("[^a-z0-9_.]+", '-')
 end
