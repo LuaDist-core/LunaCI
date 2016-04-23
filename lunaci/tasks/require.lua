@@ -1,6 +1,7 @@
 module("lunaci.tasks.require", package.seeall)
 
 
+-- TODO use soft fail if failed < ok?
 local require_modules = function(package, target, deploy_dir, manifest)
     local utils = require "lunaci.utils"
     local config = require "lunaci.config"
@@ -12,7 +13,7 @@ local require_modules = function(package, target, deploy_dir, manifest)
     local output = stringio.create()
     local fail = false
     for mod in tablex.sort(modules) do
-        local ok = utils.dir_exec(deploy_dir, "bin/lua -e 'require \"" .. mod .. "\"'")
+        local ok = utils.dir_exec(deploy_dir, "timeout 2 bin/lua -e 'require \"" .. mod .. "\"'")
         output:writef("  %s\t %s\n", (ok and "OK" or "FAIL"), mod)
         if not ok then fail = true end
     end
