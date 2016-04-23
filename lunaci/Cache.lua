@@ -28,13 +28,19 @@ end
 -- Load cache from files.
 function Cache:load()
     -- Load manifest cache
+    log:debug("Loading cache")
     if pl.path.exists(config.cache.manifest) then
         self.manifest = pl.pretty.read(pl.file.read(config.cache.manifest)) or nil
     end
 
     -- Load reports cache
     if pl.path.exists(config.cache.reports) then
-        local out = pl.pretty.read(pl.file.read(config.cache.reports)) or {}
+        local out, err = utils.raw_read_table(pl.file.read(config.cache.reports))
+        if not out then
+            log:error("Error parsing report cache: %s", err)
+            self.manifest = nil
+            return
+        end
         if out.targets then
             self.targets = out.targets
         end
