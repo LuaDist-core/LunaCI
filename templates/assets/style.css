@@ -33,8 +33,10 @@ pre.panel-body{margin: 0;background:none;border:none;padding:0 15px}
 .version pre.panel-body{max-height:250px;overflow-y: auto;-webkit-transition:max-height .4s ease;transition:max-height .4s ease}
 
 .version pre.panel-body.panel-hidden{max-height: 0;}
-.version .panel.panel-success .panel-body{max-height: 0}
-.version .panel.panel-success .panel-hidden.panel-body{max-height: 250px;}
+.version .panel.panel-success .panel-body,
+.version .panel.panel-info .panel-body{max-height: 0}
+.version .panel.panel-success .panel-hidden.panel-body,
+.version .panel.panel-info .panel-hidden.panel-body{max-height: 250px;}
 
 
 .footer{padding:40px;margin-top: 40px;border-top: 1px solid #eee;text-align: center;}

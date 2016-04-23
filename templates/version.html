@@ -36,10 +36,6 @@
                 <td><a href="$(e(spec.description.homepage))">$(e(spec.description.homepage))</a></td>
             </tr>
 #   end
-            <tr>
-                <th>Source repository</th>
-                <td><a href="$(e(repo_url))">$(e(repo_url))</a></td>
-            </tr>
 #   if spec.description.license then
             <tr>
                 <th>License</th>
@@ -53,6 +49,10 @@
             </tr>
 #   end
 # end
+            <tr>
+                <th>Source repository</th>
+                <td><a href="$(e(repo_url))">$(e(repo_url))</a></td>
+            </tr>
             <tr>
                 <th>Report generated</th>
                 <td class="date parsedate">$(date("%a, %d %b %Y %H:%M:%S %z", package.timestamp))</td>
