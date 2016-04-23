@@ -60,7 +60,7 @@ function Worker:run_target(package, target, tasks)
     local continue = true
     for _, task in pairs(tasks) do
         if not continue then
-            self.report:add_output(package, target, task, config.STATUS_NA, "Task chain ended.")
+            self.report:add_output(package, target, task, config.STATUS_SKIP, "Task chain ended.")
         else
             local ok, success, output, cont = pcall(task.call, package, target, deploy_dir, self.manifest)
 
