@@ -1,3 +1,8 @@
+-- LunaCI configuration
+-- Part of the LuaDist project - http://luadist.org
+-- Author: Martin Srank, hello@smasty.net
+-- License: MIT
+
 module("lunaci.config", package.seeall)
 
 local path = require "pl.path"
@@ -61,6 +66,7 @@ STATUS_NA       = status{"N/A", "Not applicable", "info"}
 STATUS_PLATFORM = status{"Platform", "Platform unsupported", "info"}
 STATUS_LUA_VER  = status{"Lua", "Lua version unsupported", "info"}
 STATUS_INT      = status{"Internal", "Internal error", "warning"}
+STATUS_DEP      = status{"Dependency", "Dependency error", "warning"}
 STATUS_SKIP     = status{"Skip", "Skipped", "default"}
 STATUS_SOFTFAIL = status{"Soft Fail", "Soft failure", "warning"}
 
