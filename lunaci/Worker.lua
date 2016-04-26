@@ -1,3 +1,8 @@
+-- LunaCI task worker
+-- Part of the LuaDist project - http://luadist.org
+-- Author: Martin Srank, hello@smasty.net
+-- License: MIT
+
 module("lunaci.Worker", package.seeall)
 
 local log = require "lunaci.log"

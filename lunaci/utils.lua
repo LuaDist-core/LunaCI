@@ -1,3 +1,8 @@
+-- LunaCI utility functions
+-- Part of the LuaDist project - http://luadist.org
+-- Author: Martin Srank, hello@smasty.net
+-- License: MIT
+
 module("lunaci.utils", package.seeall)
 
 local log = require "lunaci.log"

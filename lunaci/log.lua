@@ -1,3 +1,8 @@
+-- LunaCI logging configuration
+-- Part of the LuaDist project - http://luadist.org
+-- Author: Martin Srank, hello@smasty.net
+-- License: MIT
+
 module("lunaci.log", package.seeall)
 
 local config = require "lunaci.config"

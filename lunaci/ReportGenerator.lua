@@ -1,3 +1,8 @@
+-- LunaCI report generator
+-- Part of the LuaDist project - http://luadist.org
+-- Author: Martin Srank, hello@smasty.net
+-- License: MIT
+
 module("lunaci.ReportGenerator", package.seeall)
 
 local log = require "lunaci.log"

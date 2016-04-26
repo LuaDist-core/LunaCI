@@ -1,3 +1,8 @@
+-- LunaCI dependency task
+-- Part of the LuaDist project - http://luadist.org
+-- Author: Martin Srank, hello@smasty.net
+-- License: MIT
+
 module("lunaci.tasks.dependencies", package.seeall)
 
 

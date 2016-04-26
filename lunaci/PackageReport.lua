@@ -1,3 +1,8 @@
+-- LunaCI package report representation
+-- Part of the LuaDist project - http://luadist.org
+-- Author: Martin Srank, hello@smasty.net
+-- License: MIT
+
 module("lunaci.PackageReport", package.seeall)
 
 local log = require "lunaci.log"
