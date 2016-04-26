@@ -12,7 +12,7 @@ local build_package = function(package, target, deploy_dir, manifest)
 
     local ok, code, out, err = utils.dir_exec(deploy_dir, "bin/lua lib/lua/luadist.lua install '" .. package .. "'")
 
-    local msg = ("Output:\n%s\n%sExit code: %d\n", out, (err and (err .. "\n") or ""), code)
+    local msg = ("Output:\n%s\n%sExit code: %d\n"):format(out, (err and (err .. "\n") or ""), code)
 
     if ok then
         return config.STATUS_OK, msg, true
