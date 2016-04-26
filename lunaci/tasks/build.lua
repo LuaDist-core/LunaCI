@@ -12,14 +12,13 @@ local build_package = function(package, target, deploy_dir, manifest)
 
     local ok, code, out, err = utils.dir_exec(deploy_dir, "bin/lua lib/lua/luadist.lua install '" .. package .. "'")
 
-    local msg = "Output:\n" .. out .. "\n"
-    if not ok then
-        msg = msg .. ("\nError:\n%s\nExit code: %d\n"):format(err, code)
+    local msg = ("Output:\n%s\n%sExit code: %d\n", out, (err and (err .. "\n") or ""), code)
+
+    if ok then
+        return config.STATUS_OK, msg, true
     end
 
-    if code == 1 then
-        return config.STATUS_INT, "Manifest retrieval failed.\n" .. msg, false
-    elseif code == 3 then
+    if code == 3 then
         return config.STATUS_INT, "Package download failed.\n" .. msg, false
     elseif code == 4 then
         return config.STATUS_FAIL, "Installation of requested package failed.\n" .. msg, false
@@ -29,8 +28,6 @@ local build_package = function(package, target, deploy_dir, manifest)
         return config.STATUS_FAIL, msg, false
     end
 
-
-    return config.STATUS_OK, msg, true
 end
 
 
