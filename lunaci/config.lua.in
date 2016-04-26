@@ -14,7 +14,7 @@ end
 
 
 -- Base data directory path
-data_dir = path.abspath("data")
+data_dir = path.abspath("@LUNACI_DATA_DIR@")
 
 tmp_dir = path.join(data_dir, "tmp")
 deploy_dir = path.join(tmp_dir, "deploys")
@@ -77,7 +77,7 @@ output.git_user_mail = "lunaci@luadist.org"
 
 -- Templating
 templates = {}
-templates.path = path.abspath("templates")
+templates.path = path.abspath("@LUNACI_TEMPLATE_DIR@")
 templates.asset_path = path.join(templates.path, "assets")
 templates.pkg_repo = "https://github.com/LuaDist2/%s"
 templates.pkg_repo_version = "https://github.com/LuaDist2/%s/tree/%s"
