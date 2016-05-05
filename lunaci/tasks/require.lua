@@ -6,7 +6,6 @@
 module("lunaci.tasks.require", package.seeall)
 
 
--- TODO use soft fail if failed < ok?
 local require_modules = function(package, target, deploy_dir, manifest)
     local utils = require "lunaci.utils"
     local config = require "lunaci.config"
@@ -14,6 +13,10 @@ local require_modules = function(package, target, deploy_dir, manifest)
     local stringio = require "pl.stringio"
 
     local modules = package.spec.build and package.spec.build.modules or {}
+
+    if not package.spec.build or package.spec.build.type ~= 'builtin' then
+        return config.STATUS_SKIP, "Build type \"" .. package.spec.build.type .. "\" not supported for testing module requires.", true
+    end
 
     local output = stringio.create()
     local fail = false
@@ -23,7 +26,7 @@ local require_modules = function(package, target, deploy_dir, manifest)
         if not ok then fail = true end
     end
 
-    return fail and config.STATUS_FAIL or config.STATUS_OK, output:value(), not fail
+    return fail and config.STATUS_SOFTFAIL or config.STATUS_OK, output:value(), not fail
 
 end
 

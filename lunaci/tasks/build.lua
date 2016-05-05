@@ -14,10 +14,14 @@ local build_package = function(package, target, deploy_dir, manifest)
 
     local msg = ("Output:\n%s\n%sExit code: %d\n"):format(out, (err and (err .. "\n") or ""), code)
 
+    -- Successful install
     if ok then
         return config.STATUS_OK, msg, true
     end
 
+    -- TODO detect "unsupported build type" and use custom status code.
+
+    -- Install failed - determine reason.
     if code == 3 then
         return config.STATUS_INT, "Package download failed.\n" .. msg, false
     elseif code == 4 then

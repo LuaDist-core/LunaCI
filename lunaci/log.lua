@@ -3,8 +3,6 @@
 -- Author: Martin Srank, hello@smasty.net
 -- License: MIT
 
-module("lunaci.log", package.seeall)
-
 local config = require "lunaci.config"
 
 local logging = require "logging"

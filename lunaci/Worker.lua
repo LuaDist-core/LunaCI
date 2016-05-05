@@ -3,7 +3,6 @@
 -- Author: Martin Srank, hello@smasty.net
 -- License: MIT
 
-module("lunaci.Worker", package.seeall)
 
 local log = require "lunaci.log"
 local utils = require "lunaci.utils"
@@ -15,6 +14,7 @@ local Package = require "rocksolver.Package"
 local pl = require "pl.import_into"()
 
 
+-- Class definition and constructor.
 local Worker = {}
 Worker.__index = Worker
 setmetatable(Worker, {
@@ -52,7 +52,7 @@ function Worker:run(targets, tasks)
 end
 
 
--- Run tasks for the package on a given targets.
+-- Run tasks for the package on a given target.
 function Worker:run_target(package, target, tasks)
     pl.utils.assert_arg(1, package, "table")
     pl.utils.assert_arg(2, target, "table")
@@ -119,7 +119,7 @@ function Worker:get_report()
 end
 
 
--- TODO use LuaDist2 for this when it's ready
+-- TODO use LuaDist for this when it's ready
 function Worker:get_package(name, version, spec)
     local path = pl.path
 

@@ -3,7 +3,6 @@
 -- Author: Martin Srank, hello@smasty.net
 -- License: MIT
 
-module("lunaci.Cache", package.seeall)
 
 local log = require "lunaci.log"
 local utils = require "lunaci.utils"
@@ -12,6 +11,7 @@ local config = require "lunaci.config"
 local pl = require "pl.import_into"()
 
 
+-- Class definition and constructor.
 local Cache = {}
 Cache.__index = Cache
 setmetatable(Cache, {
@@ -145,16 +145,19 @@ function Cache:add_report(name, report)
 end
 
 
+-- Get report for the given package name.
 function Cache:get_report(name)
     return self.reports[name]
 end
 
 
+-- Get rockspec of the latest version for the given package name.
 function Cache:get_spec(name)
     return self.specs[name]
 end
 
 
+-- Get report for given package version or nil if not in cache.
 function Cache:get_version(name, ver)
     return self.reports[name] and self.reports[name][ver] or nil
 end
