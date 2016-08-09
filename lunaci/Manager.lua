@@ -209,7 +209,7 @@ function Manager:fetch_manifest()
 end
 
 
--- Initialize output direcotry as a git repository if it does not exist yet.
+-- Initialize output directory as a git repository if it does not exist yet.
 function Manager:init_repository()
     local path = pl.path
     local cf = config.output
