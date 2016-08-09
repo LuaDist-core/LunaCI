@@ -22,7 +22,9 @@ local build_package = function(package, target, deploy_dir, manifest)
     -- TODO detect "unsupported build type" and use custom status code.
 
     -- Install failed - determine reason.
-    if code == 3 then
+    if msg:match("Unhandled rockspec build type") then
+        return config.STATUS_BLD_TYPE, "Unsupported build type.\n" .. msg, false
+    elseif code == 3 then
         return config.STATUS_INT, "Package download failed.\n" .. msg, false
     elseif code == 4 then
         return config.STATUS_FAIL, "Installation of requested package failed.\n" .. msg, false
