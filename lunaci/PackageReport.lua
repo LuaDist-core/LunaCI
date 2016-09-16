@@ -3,7 +3,6 @@
 -- Author: Martin Srank, hello@smasty.net
 -- License: MIT
 
-module("lunaci.PackageReport", package.seeall)
 
 local log = require "lunaci.log"
 local utils = require "lunaci.utils"
@@ -11,6 +10,7 @@ local utils = require "lunaci.utils"
 local pl = require "pl.import_into"()
 
 
+-- Class definition and constructor.
 local PackageReport = {}
 PackageReport.__index = PackageReport
 setmetatable(PackageReport, {

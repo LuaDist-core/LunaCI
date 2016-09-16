@@ -14,11 +14,16 @@ local build_package = function(package, target, deploy_dir, manifest)
 
     local msg = ("Output:\n%s\n%sExit code: %d\n"):format(out, (err and (err .. "\n") or ""), code)
 
+    -- Successful install
     if ok then
         return config.STATUS_OK, msg, true
     end
 
-    if code == 3 then
+
+    -- Install failed - determine reason.
+    if msg:match("Unhandled rockspec build type") then
+        return config.STATUS_BLD_TYPE, "Unsupported build type.\n" .. msg, false
+    elseif code == 3 then
         return config.STATUS_INT, "Package download failed.\n" .. msg, false
     elseif code == 4 then
         return config.STATUS_FAIL, "Installation of requested package failed.\n" .. msg, false

@@ -3,7 +3,6 @@
 -- Author: Martin Srank, hello@smasty.net
 -- License: MIT
 
-module("lunaci.Manager", package.seeall)
 
 local log = require "lunaci.log"
 local utils = require "lunaci.utils"
@@ -25,6 +24,7 @@ setmetatable(changed_version_cache, {
 })
 
 
+-- Class definition and constructor.
 local Manager = {}
 Manager.__index = Manager
 setmetatable(Manager, {
@@ -209,6 +209,7 @@ function Manager:fetch_manifest()
 end
 
 
+-- Initialize output directory as a git repository if it does not exist yet.
 function Manager:init_repository()
     local path = pl.path
     local cf = config.output
@@ -226,11 +227,12 @@ function Manager:init_repository()
         local ok, code, out, err = utils.dir_exec(repo, "git remote add '" .. cf.remote_name .. "' '" .. cf.remote .. "'")
         if not ok then error("Could not add remote: " .. err) end
 
-        utils.dir_exec(repo, "git checkout -b '" .. cf.branch .. "'")
     end
+    utils.dir_exec(repo, "git checkout -b '" .. cf.branch .. "'")
 end
 
 
+-- Publish report output - commit to git and push to remote.
 function Manager:publish_reports(reports)
     -- Skip if no changes.
     if next(reports) == nil then

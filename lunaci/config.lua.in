@@ -27,7 +27,7 @@ deploy_dir = path.join(tmp_dir, "deploys")
 
 -- Manifest
 manifest = {}
-manifest.repo = "https://gist.github.com/efe9312e64d0e492282e.git"
+manifest.repo = "https://github.com/LuaDist2/manifest.git"
 manifest.path = path.join(data_dir, "manifest-repo")
 manifest.file = path.join(manifest.path, "manifest-file")
 
@@ -63,6 +63,7 @@ platform = {"unix", "linux"}
 STATUS_OK       = status{"OK", "Success", "success"}
 STATUS_FAIL     = status{"Fail", "Failure", "danger"}
 STATUS_NA       = status{"N/A", "Not applicable", "info"}
+STATUS_BLD_TYPE = status{"Build type", "Unsupported build type", "info"}
 STATUS_PLATFORM = status{"Platform", "Platform unsupported", "info"}
 STATUS_LUA_VER  = status{"Lua", "Lua version unsupported", "info"}
 STATUS_INT      = status{"Internal", "Internal error", "warning"}

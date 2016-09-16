@@ -3,7 +3,6 @@
 -- Author: Martin Srank, hello@smasty.net
 -- License: MIT
 
-module("lunaci.ReportGenerator", package.seeall)
 
 local log = require "lunaci.log"
 local utils = require "lunaci.utils"
@@ -13,6 +12,7 @@ local pl = require "pl.import_into"()
 local plsort = pl.tablex.sort
 
 
+-- Class definition and constructor.
 local ReportGenerator = {}
 ReportGenerator.__index = ReportGenerator
 setmetatable(ReportGenerator, {
@@ -192,6 +192,7 @@ function ReportGenerator:get_packages_latest()
 end
 
 
+-- Get rocspec of the latest package version, either from the reports or from cache.
 function ReportGenerator:get_package_spec(name)
     local cached = self.cache:get_spec(name) or {}
     local new = self.reports[name]:get_latest().package.spec
@@ -204,6 +205,7 @@ function ReportGenerator:get_package_spec(name)
 end
 
 
+-- Generate package task status statistics for the dashboard.
 function ReportGenerator:generate_stats(packages)
     local stats = {}
     local total = 0
@@ -222,6 +224,7 @@ function ReportGenerator:generate_stats(packages)
         end
     end
 
+    -- TODO use better rounding
     local total_percent = 0
     for k, v in pairs(stats) do
         stats[k].val = string.format("%.0f", stats[k].val / total * 100)
@@ -229,9 +232,9 @@ function ReportGenerator:generate_stats(packages)
     end
 
     -- Weird, but can happen sometimes
-    if total_percent > 100 then
-        log:debug("We had a percentage overflow in statistics.")
-        stats[1].val = stats[1].val - (total_percent - 100)
+    if total_percent ~= 100 then
+        log:debug("We had a percentage %s in statistics.", total_percent > 100 and "overflow" or "underflow")
+        stats[1].val = stats[1].val + (100 - total_percent)
     end
 
     local sorted = {}
