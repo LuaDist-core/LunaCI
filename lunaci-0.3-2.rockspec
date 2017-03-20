@@ -1,8 +1,8 @@
 package = "lunaci"
-version = "0.3-1"
+version = "0.3-2"
 
 source = {
-    tag = "0.3-1",
+    tag = "0.3-2",
     url = "git://github.com/LuaDist-core/LunaCI.git"
 }
 
@@ -16,7 +16,7 @@ supported_platforms = {"unix", "linux"}
 
 dependencies = {
     "lua >= 5.1",
-    "penlight == 1.3.3.luadist",
+    "penlight >= 1.4",
     "lualogging >= 1.3.0",
 }
 
